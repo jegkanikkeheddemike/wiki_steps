@@ -44,7 +44,13 @@ pub async fn search(root: String) {
 
         if KILL_SWITCH.load(Ordering::Relaxed) {}
 
-        let resp = reqwest::get(url).await.unwrap();
+        let resp = match reqwest::get(url).await {
+            Ok(resp) => resp,
+            Err(err) => {
+                eprintln!("Error: {err}");
+                continue;
+            }
+        };
 
         let html = resp.text().await.unwrap();
         let s1 = Regex::new("<a href=\"/wiki/(.*)</a>").unwrap();

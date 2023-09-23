@@ -1,2 +1,2 @@
 [workspace]
-members = ["scraper"]
+members = ["scraper", "server"]
